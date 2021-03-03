@@ -1,0 +1,25 @@
+.stake-grid {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.stake-grid-item {
+    width: 49%;
+    justify-content: center;
+    text-align: center;
+    margin: 12px 0;
+}
+
+.claim {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .stake-grid-item {
+        width: 100%;
+        margin: 8px 0;
+    }
+}
