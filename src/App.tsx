@@ -39,8 +39,8 @@ const App = () => {
           setState(s => {
             return {
             ...s,
-            priceQFI: qfi ? Number(qfi.toFixed(2)) : 0,
-            priceETH: eth ? Number(eth.toFixed(2)) : 0
+            priceQFI: qfi ? qfi.toFixed(2) : '0',
+            priceETH: eth ? eth.toFixed(2) : '0'
           }})
         }
 

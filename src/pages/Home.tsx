@@ -4,6 +4,7 @@ import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
 import AppContext from "../AppContext";
 import { FiPieChart, FiAward, FiRefreshCcw } from "react-icons/fi";
+import Loader from "react-loader-spinner";
 
 const Home = () => {
   const context = React.useContext(AppContext);
@@ -27,7 +28,9 @@ const Home = () => {
       <GridContainer>
         <GridItem sm={2} gap={12}>
             <div className="card" style={{padding: '24px'}}>
-              <h2 className="card_h2">${context ? `${context.state.priceQFI}` : 0}</h2>
+              <h2 className="card_h2">{context ? 
+                context.state.priceQFI ? `$${context.state.priceQFI}` : <Loader type="ThreeDots" height="24px" width="24px" color="white" />
+                : 0}</h2>
               <h5 className="card_h5">QFI Price</h5>
             </div>
         </GridItem>

@@ -19,8 +19,8 @@ interface IAppState {
     pendingRequest: boolean;
     result: any | null;
     balance: number;
-    priceQFI: number;
-    priceETH: number;
+    priceQFI: string;
+    priceETH: string;
   }
 
 export interface ITransactionState {
@@ -41,8 +41,8 @@ export const INITIAL_STATE: IAppState = {
     pendingRequest: false,
     result: null,
     balance: 0,
-    priceQFI: 0,
-    priceETH: 0
+    priceQFI: '0',
+    priceETH: '0'
   };
 
 export function initWeb3(provider: any) {
