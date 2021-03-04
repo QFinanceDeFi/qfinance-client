@@ -36,20 +36,16 @@ const App = () => {
           const prices: any = await getPrices();
           let qfi = prices.find((item: any) => item.name === "QFinance").price;
           let eth = prices.find((item: any) => item.name === "Ethereum").price;
-          setState({
-            ...state,
+          setState(s => {
+            return {
+            ...s,
             priceQFI: qfi ? Number(qfi.toFixed(2)) : 0,
             priceETH: eth ? Number(eth.toFixed(2)) : 0
-          })
+          }})
         }
 
-        if (web3Modal.cachedProvider) {
-            onConnect();
-            prices();
-        } else { 
-          prices();
-        }
-    }, [web3Modal.cachedProvider])
+        prices()
+    }, [])
 
     const onConnect = async () => {
         const provider: any = await web3Modal.connect().catch(err => console.log(err));

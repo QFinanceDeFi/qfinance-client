@@ -35,7 +35,7 @@ const Pool = () => {
             setLoading(false);
         }
         getData();
-    }, [update, context, history])
+    }, [update, context, history, location.pathname])
 
     return (
         <div style={{display: 'flex', width: '100%', justifyContent: 'center', flexDirection: 'column'}}>

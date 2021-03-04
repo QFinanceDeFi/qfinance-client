@@ -13,15 +13,14 @@ const Modal = ({open, close, action, children}: IModalProps) => {
     const node = React.useRef();
     useOnClickOutside(node, close);
 
-    const toggle = () => {
-        if (open) {
-            document.body.style.backgroundColor = "rgba(0,0,0,0.9)";
-        } else if (!open) {
-            document.body.style.backgroundColor = "rgba(0,0,0)";
-        }
-    }
-
     React.useEffect(() => {
+        const toggle = () => {
+            if (open) {
+                document.body.style.backgroundColor = "rgba(0,0,0,0.9)";
+            } else if (!open) {
+                document.body.style.backgroundColor = "rgba(0,0,0)";
+            }
+        }
         toggle();
       }, [open]);
 
