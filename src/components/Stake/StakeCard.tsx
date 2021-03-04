@@ -1,5 +1,5 @@
 import React from "react";
-import { IUserStake, approveStaking, claimEarnings, withdrawStake, sendStake } from "../../helpers/getStakingDetails";
+import { IUserStake, approveStaking, claimEarnings, withdrawStake } from "../../helpers/getStakingDetails";
 import AppContext from "../../AppContext";
 import Button from "../Button/Button";
 import StakeForm from "./StakeForm";

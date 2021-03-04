@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AppContext from "../../AppContext";
 import Slider from "react-input-slider";
 import Modal from "../Modal/Modal";
 import { withdrawEth } from "../../helpers/withdrawEth";
-import Input from "../Input/Input";
 import cogoToast from "cogo-toast";
 
 interface IWithdrawProps {

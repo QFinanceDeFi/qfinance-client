@@ -47,10 +47,12 @@ export const getPool = async (priv: boolean, address: string, context: any): Pro
         let creator: string = await contract.methods.creator().call();
         let breakdown: object[] = [];
         tokens.map((item, index) => {
-            breakdown.push({
+            return (
+                breakdown.push({
                 address: item,
                 percent: amounts[index]
             })
+            )
         })
         let userBalance = 0;
         

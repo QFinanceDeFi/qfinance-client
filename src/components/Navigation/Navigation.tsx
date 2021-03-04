@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import Navbar from "./Navbar";
 import NavLink from "./NavLink";
 import ExLink from "./ExLink";
@@ -9,18 +8,16 @@ import BottomBar from "./BottomBar";
 import AppContext from "../../AppContext";
 import image from "../../images/logo192.png";
 import { SiTelegram, SiReddit, SiGithub, SiTwitter, SiInternetexplorer } from "react-icons/si";
+import Loader from "react-loader-spinner";
 
 const Navigation = () => {
-    const [loading, setLoading] = React.useState<boolean> (true);
     const [price, setPrice] = React.useState<number | null> ();
 
     const context = React.useContext(AppContext);
-    const history = useHistory();
 
     React.useEffect(() => {
         function getPrice() {
             setPrice(context.state.priceQFI);
-            setLoading(false);
         }
         if (context) {
             getPrice();
@@ -59,7 +56,10 @@ const Navigation = () => {
                 <ExLink href="https://t.me/QFinanceDeFi" label="Telegram" />
                 <ExLink href="https://github.com/QFinanceDeFi" label="Github" />
                 <ExLink href="https://qfihub.com" label="Site" />
-                {price && <Price price={price} />}
+                {!price ? <Loader type="ThreeDots" color="#CC9966" height="24px" width="24px" />
+                :
+                <Price price={price} />
+                }
             </div>
         </Sidebar>
         <BottomBar>

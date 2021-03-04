@@ -89,17 +89,23 @@ body {
 
 .features_card {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-grow: 1;
     padding: 24px;
     border-radius: 6px;
 }
 
 .features_card:hover {
-    box-shadow: 0 0 8px 0 #666;
+    box-shadow: 0 0 8px 0 #CC9966;
     cursor: pointer;
 }
 
 .features_card > * {
     margin-right: 12px;
+}
+
+.features_card:hover > svg {
+    stroke: #CC9966;
+    color: #CC9966;
 }

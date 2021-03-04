@@ -12,12 +12,12 @@ const Table = ({data, columns}: ITableProps) => {
   const history = useHistory();
   data = React.useMemo(
     () => data,
-    []
+    [data]
   )
 
   columns = React.useMemo(
     () => columns,
-    []
+    [columns]
   )
 
   const {
