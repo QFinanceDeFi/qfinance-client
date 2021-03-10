@@ -53,7 +53,7 @@ const Navigation = () => {
             </div>
             <div className="side-content">
                 <ExLink href="https://reddit.com/r/QFinanceDeFi" label="Reddit" />
-                <ExLink href="https://t.me/QFinanceDeFi" label="Telegram" />
+                <ExLink href="https://t.me/QFinance_DeFi" label="Telegram" />
                 <ExLink href="https://github.com/QFinanceDeFi" label="Github" />
                 <ExLink href="https://qfihub.com" label="Site" />
                 {!price ? <Loader type="ThreeDots" color="#CC9966" height="24px" width="24px" />
