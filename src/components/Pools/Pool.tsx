@@ -30,7 +30,7 @@ const Pool = () => {
                 isPublic: res.isPublic,
                 breakdown: res.breakdown,
                 update: () => setUpdate(!update),
-                userBalance: res.userBalance || 0
+                userBalance: res.userBalance
             })
             setLoading(false);
         }

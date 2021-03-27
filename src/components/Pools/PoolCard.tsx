@@ -54,7 +54,7 @@ const PoolCard = ({ poolName, address, currentValue, isPublic, breakdown, update
                     style={{marginRight: '18px'}} disabled={!isPublic && context.state.address !== creator} />
                 <Button variant="primary" size="sm"
                     onClick={() => setWithdrawFormOpen(true)} label="Withdraw"
-                    style={{marginLeft: '18px'}} disabled={!userBalance || userBalance < 0.1} />
+                    style={{marginLeft: '18px'}} disabled={userBalance < 0.1} />
             </div>
             <PoolDeposit update={update} open={depositFormOpen} close={closeDepositForm}
                 isPublic={isPublic} address={address} poolName={poolName} />
