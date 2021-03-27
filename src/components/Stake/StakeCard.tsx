@@ -76,6 +76,9 @@ const StakeCard = (props: ICardProps) => {
                             label='Withdraw Stake' />
                     }
                 </div>
+                {props.userStake && props.userStake.staked > 0.1 &&
+                    <span style={{color: '#CC9966'}}>Staked: {Math.floor(props.userStake.staked * 100000000) / 100000000}</span>
+                }
             </div>
             <div className="card_footer">
                 <div>
