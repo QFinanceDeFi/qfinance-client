@@ -10,7 +10,6 @@ export const depositEth = async (context: any, amount: string, priv: boolean, ad
             value: web3.utils.toWei(amount, 'ether'),
             data
         };
-        console.log(txParams);
         const txHash: string = await context.state.web3.eth.sendTransaction(txParams);
         console.log(txHash);
         return true;

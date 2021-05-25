@@ -20,6 +20,7 @@ import Trade from "./pages/Trade";
 import Layout from "./components/Layout";
 import Create from './pages/Create';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Airdrop from './pages/Airdrop';
 
 const App = () => {
     const [state, setState] = useState(INITIAL_STATE);
@@ -142,6 +143,7 @@ const App = () => {
             <Route path="/stake" exact component={StakePage} />
             <Route path="/trade" exact component={Trade} />
             <Route path="/create" exact component={Create} />
+            <Route path="/airdrop" exact component={Airdrop} />
           </Switch>
         </Layout>
         </Router>

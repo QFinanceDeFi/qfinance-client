@@ -39,6 +39,7 @@ const Navigation = () => {
                 <NavLink to="/pools" label="Pools" />
                 <NavLink to="/stake" label="Stake" />
                 <NavLink to="/trade" label="Trade" />
+                <NavLink to="/airdrop" label="Airdrop" />
             </div>
         </Navbar>
         <Sidebar>
@@ -50,6 +51,7 @@ const Navigation = () => {
                 <NavLink to="/pools" label="Pools" />
                 <NavLink to="/stake" label="Stake" />
                 <NavLink to="/trade" label="Trade" />
+                <NavLink to="/airdrop" label="Airdrop" />
             </div>
             <div className="side-content">
                 <ExLink href="https://reddit.com/r/QFinanceDeFi" label="Reddit" />
