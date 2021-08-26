@@ -7,8 +7,21 @@ interface IReturnData {
 }
 
 export const getPrices = async (): Promise<IReturnData[]> => {
-    let url = "https://qfiprices.azurewebsites.net/api/GetPrices?tokens=ethereum,qfinance";
-    let res = await axios.get(url)
+    const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum,qfinance";
+    const res = await axios.get(url)
 
-    return res.data;
+    const prices: IReturnData[] = [
+        {
+            name: 'ethereum',
+            symbol: 'ETH',
+            price: res[0].current_price
+        },
+        {
+            name: 'qfinance',
+            symbol: 'QFI',
+            price: res[1].current_price
+        }
+    ]
+
+    return prices;
 }
