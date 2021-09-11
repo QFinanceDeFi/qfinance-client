@@ -1,47 +1,32 @@
 import React from "react";
+import { X } from "react-feather";
 import { useOnClickOutside } from "./hooks";
 import "./modal.css";
 
 interface IModalProps {
     open: boolean;
     close: Function;
-    action: Function;
     children: any;
 }
 
-const Modal = ({open, close, action, children}: IModalProps) => {
-    const node = React.useRef();
+const Modal = ({open, close, children}: IModalProps) => {
+    const node: any = React.useRef();
     useOnClickOutside(node, close);
 
-    React.useEffect(() => {
-        const toggle = () => {
-            if (open) {
-                document.body.style.backgroundColor = "rgba(0,0,0,0.9)";
-            } else if (!open) {
-                document.body.style.backgroundColor = "rgba(0,0,0)";
-            }
-        }
-        toggle();
-      }, [open]);
-
-      return (
-        open &&
-        <div className="modal-container">
-            <div className="modal" ref={node} id='modal'>
-                <div className="modal_content">
-                    {children}
+    return (
+        open ?
+        (<div className="modal" id="modal">
+            <div className="modal-shell" ref={node}>
+                <div className="modal-close" onClick={() => close()}>
+                    <X />
                 </div>
-                <div className="modal_footer">
-                    <button className="modal_button-close" onClick={() => close()}>
-                        Close
-                    </button>
-                    <button className="modal_button-submit" onClick={() => action()}>
-                        Submit
-                    </button>
-                </div>
+                { children }
             </div>
-        </div>
-      )
+        </div>)
+        :
+        (<div></div>)
+    );
+
 }
 
 export default Modal;

@@ -1,0 +1,23 @@
+.toggle-nav {
+    display: flex;
+    justify-content: space-evenly;
+    background: rgb(28,28,28);
+    height: 48px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.toggle-nav-item {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-nav-item-selected {
+    background: #BA9860;
+    color: black;
+    cursor: auto;
+}

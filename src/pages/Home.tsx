@@ -1,62 +1,125 @@
-import React from "react"
-import { useHistory } from "react-router-dom";
-import GridContainer from "../components/Grid/GridContainer";
-import GridItem from "../components/Grid/GridItem";
-import AppContext from "../AppContext";
-import { FiPieChart, FiAward, FiRefreshCcw } from "react-icons/fi";
-import Loader from "react-loader-spinner";
+import React from "react";
+import HomeCard from "../components/Home/HomeCard";
+import useWindowWidth from "../hooks/useWindowWidth";
+import Main from "../templates/Main";
+import { useAppSelector } from "../hooks/base";
+import Loader from "react-spinners/BounceLoader";
 
-const Home = () => {
-  const context = React.useContext(AppContext);
-
-  const history = useHistory();
-
-  const navigate = (url: string) => {
-    window.location.assign(url);
-  }
-
-  return (
-    <>
-      <h1 style={{marginLeft: '12px', fontWeight: 600, color: '#CC9966'}}>Home</h1>
-      <div className="about">
-          <p style={{color: '#CC9966'}}>
-            QFinance is a decentralized protocol to create Ethereum-based investment pools. Pools have an asset allocation.
-            When you deposit your funds to one of the pools, the smart contract code will acquire the assets in a fully
-            decentralized manner. Deposit your funds to a pool but keep full control, and withdraw at any time. Then stake to earn QFI.
-          </p>
-        </div>
-      <GridContainer>
-        <GridItem sm={2} gap={12}>
-            <div className="card" style={{padding: '24px'}}>
-              <h2 className="card_h2">{context ? 
-                context.state.priceQFI ? `$${context.state.priceQFI}` : <Loader type="ThreeDots" height="24px" width="24px" color="white" />
-                : 0}</h2>
-              <h5 className="card_h5">QFI Price</h5>
-            </div>
-        </GridItem>
-        <GridItem sm={2} gap={12}>
-            <div className="card" style={{padding: '24px'}}>
-              <h2 className="card_h2">$164,000</h2>
-              <h5 className="card_h5">TVL</h5>
-            </div>
-        </GridItem>
-        <div className="features">
-          <div className="features_card" onClick={() => history.push(`/pools`)}>
-            <FiPieChart size={32} color="white" />
-            <h3>Invest in a pool</h3>
-          </div>
-          <div className="features_card" onClick={() => history.push(`/stake`)}>
-            <FiAward size={32} color="white" />
-            <h3>Stake to earn QFI</h3>
-          </div>
-          <div className="features_card" onClick={() => navigate(`https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x6fe88a211863d0d818608036880c9a4b0ea86795`)}>
-            <FiRefreshCcw size={32} color="white" />
-            <h3>Buy and sell QFI</h3>
-          </div>
-        </div>
-      </GridContainer>
-    </>
-  )
+interface IHomeProps {
+    tvl: string;
 }
 
-export default Home
+const Home: React.FC<IHomeProps> = ({ tvl }) => {
+    const [fontSize, setFontSize] = React.useState<number>(24);
+    const { prices, pools, stake } = useAppSelector(state => { return { prices: state.prices, pools: state.pools, stake: state.stake } });
+    const width = useWindowWidth();
+
+    React.useEffect(() => {
+        setFontSize(4 * ((width > 600 ? 600 : width) / 80));
+    }, [width]);
+
+    return (
+        <Main title="QFinance DeFi Platform" subtitle="Decentralized, DAO-based investment pools">
+            <div style={{ maxWidth: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>
+                <HomeCard size="lg">
+                    <span style={{fontSize: width > 600 ? '16px' : '14px'}}>
+                        QFinance is a DeFi platform to enable multiswapping ERC20 assets in one transaction and creating asset pools that
+                        hold ERC20 assets. Asset pools function like a DAO. The management and governance of the asset pools is performed
+                        by the investors themselves through proposals and voting.
+                    </span>
+                    {/*<a href="#" style={{display: 'block', color: 'inherit', marginTop: '4px'}}>Click here to learn more.</a>*/}
+                </HomeCard>
+                <HomeCard size="lg">
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <a href={`https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x6fe88a211863d0d818608036880c9a4b0ea86795`}
+                            className="home-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 641 640">
+                                    <path d="M224.534 123.226C218.692 122.32 218.445 122.213 221.195 121.791C226.464 120.98 238.905 122.085 247.479 124.123C267.494 128.881 285.707 141.069 305.148 162.714L310.313 168.465L317.701 167.277C348.828 162.275 380.493 166.25 406.978 178.485C414.264 181.851 425.752 188.552 427.187 190.274C427.645 190.822 428.485 194.355 429.053 198.124C431.02 211.164 430.036 221.16 426.047 228.625C423.877 232.688 423.756 233.975 425.215 237.452C426.38 240.227 429.627 242.28 432.843 242.276C439.425 242.267 446.509 231.627 449.791 216.823L451.095 210.943L453.678 213.868C467.846 229.92 478.974 251.811 480.885 267.393L481.383 271.455L479.002 267.762C474.903 261.407 470.785 257.08 465.512 253.591C456.006 247.301 445.955 245.161 419.337 243.758C395.296 242.491 381.69 240.438 368.198 236.038C345.244 228.554 333.672 218.587 306.405 182.812C294.294 166.923 286.808 158.131 279.362 151.051C262.442 134.964 245.816 126.527 224.534 123.226Z" />
+                                    <path d="M432.61 158.704C433.215 148.057 434.659 141.033 437.562 134.62C438.711 132.081 439.788 130.003 439.954 130.003C440.12 130.003 439.621 131.877 438.844 134.167C436.733 140.392 436.387 148.905 437.84 158.811C439.686 171.379 440.735 173.192 454.019 186.769C460.25 193.137 467.497 201.168 470.124 204.616L474.901 210.886L470.124 206.405C464.282 200.926 450.847 190.24 447.879 188.712C445.89 187.688 445.594 187.705 444.366 188.927C443.235 190.053 442.997 191.744 442.84 199.741C442.596 212.204 440.897 220.204 436.797 228.203C434.58 232.529 434.23 231.606 436.237 226.723C437.735 223.077 437.887 221.474 437.876 209.408C437.853 185.167 434.975 179.339 418.097 169.355C413.821 166.826 406.776 163.178 402.442 161.249C398.107 159.32 394.664 157.639 394.789 157.514C395.267 157.038 411.727 161.842 418.352 164.39C428.206 168.181 429.833 168.672 431.03 168.215C431.832 167.909 432.22 165.572 432.61 158.704Z" />
+                                    <path d="M235.883 200.175C224.022 183.846 216.684 158.809 218.272 140.093L218.764 134.301L221.463 134.794C226.534 135.719 235.275 138.973 239.369 141.459C250.602 148.281 255.465 157.263 260.413 180.328C261.862 187.083 263.763 194.728 264.638 197.317C266.047 201.483 271.369 211.214 275.696 217.534C278.813 222.085 276.743 224.242 269.853 223.62C259.331 222.67 245.078 212.834 235.883 200.175Z" />
+                                    <path d="M418.223 321.707C362.793 299.389 343.271 280.017 343.271 247.331C343.271 242.521 343.437 238.585 343.638 238.585C343.84 238.585 345.985 240.173 348.404 242.113C359.644 251.128 372.231 254.979 407.076 260.062C427.58 263.054 439.119 265.47 449.763 269C483.595 280.22 504.527 302.99 509.518 334.004C510.969 343.016 510.118 359.915 507.766 368.822C505.91 375.857 500.245 388.537 498.742 389.023C498.325 389.158 497.917 387.562 497.81 385.389C497.24 373.744 491.355 362.406 481.472 353.913C470.235 344.257 455.137 336.569 418.223 321.707Z" />
+                                    <path d="M379.31 330.978C378.615 326.846 377.411 321.568 376.633 319.25L375.219 315.036L377.846 317.985C381.481 322.065 384.354 327.287 386.789 334.241C388.647 339.549 388.856 341.127 388.842 349.753C388.828 358.221 388.596 359.996 386.88 364.773C384.174 372.307 380.816 377.649 375.181 383.383C365.056 393.688 352.038 399.393 333.253 401.76C329.987 402.171 320.47 402.864 312.103 403.299C291.016 404.395 277.138 406.661 264.668 411.04C262.875 411.67 261.274 412.052 261.112 411.89C260.607 411.388 269.098 406.326 276.111 402.948C285.999 398.185 295.842 395.586 317.897 391.913C328.792 390.098 340.043 387.897 342.9 387.021C369.88 378.749 383.748 357.402 379.31 330.978Z" />
+                                    <path d="M404.719 376.105C397.355 360.273 395.664 344.988 399.698 330.732C400.13 329.209 400.824 327.962 401.242 327.962C401.659 327.962 403.397 328.902 405.103 330.05C408.497 332.335 415.303 336.182 433.437 346.069C456.065 358.406 468.966 367.959 477.74 378.873C485.423 388.432 490.178 399.318 492.467 412.593C493.762 420.113 493.003 438.206 491.074 445.778C484.99 469.653 470.85 488.406 450.682 499.349C447.727 500.952 445.075 502.269 444.788 502.275C444.501 502.28 445.577 499.543 447.18 496.191C453.965 482.009 454.737 468.214 449.608 452.859C446.467 443.457 440.064 431.985 427.135 412.596C412.103 390.054 408.417 384.054 404.719 376.105Z" />
+                                    <path d="M196.519 461.525C217.089 444.157 242.682 431.819 265.996 428.032C276.043 426.399 292.78 427.047 302.084 429.428C316.998 433.245 330.338 441.793 337.276 451.978C344.057 461.932 346.966 470.606 349.995 489.906C351.189 497.519 352.489 505.164 352.882 506.895C355.156 516.897 359.583 524.892 365.067 528.907C373.779 535.283 388.78 535.68 403.536 529.924C406.041 528.947 408.215 528.271 408.368 528.424C408.903 528.955 401.473 533.93 396.23 536.548C389.177 540.071 383.568 541.434 376.115 541.434C362.6 541.434 351.379 534.558 342.016 520.539C340.174 517.78 336.032 509.516 332.813 502.176C322.928 479.628 318.046 472.759 306.568 465.242C296.579 458.701 283.697 457.53 274.006 462.282C261.276 468.523 257.724 484.791 266.842 495.101C270.465 499.198 277.223 502.732 282.749 503.419C293.086 504.705 301.97 496.841 301.97 486.404C301.97 479.627 299.365 475.76 292.808 472.801C283.852 468.76 274.226 473.483 274.272 481.897C274.292 485.484 275.854 487.737 279.45 489.364C281.757 490.408 281.811 490.491 279.929 490.1C271.712 488.396 269.787 478.49 276.394 471.913C284.326 464.018 300.729 467.502 306.362 478.279C308.728 482.805 309.003 491.82 306.94 497.264C302.322 509.448 288.859 515.855 275.201 512.368C265.903 509.994 262.117 507.424 250.906 495.876C231.425 475.809 223.862 471.92 195.777 467.536L190.395 466.696L196.519 461.525Z" />
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M49.6202 12.0031C114.678 90.9638 214.977 213.901 219.957 220.784C224.068 226.467 222.521 231.576 215.478 235.58C211.561 237.807 203.508 240.063 199.476 240.063C194.916 240.063 189.779 237.867 186.038 234.318C183.393 231.81 172.721 215.874 148.084 177.646C129.233 148.396 113.457 124.131 113.027 123.725C112.032 122.785 112.049 122.817 146.162 183.854C167.582 222.181 174.813 235.731 174.813 237.543C174.813 241.229 173.808 243.166 169.261 248.238C161.681 256.694 158.293 266.195 155.847 285.859C153.104 307.902 145.394 323.473 124.026 350.122C111.518 365.722 109.471 368.581 106.315 374.869C102.339 382.786 101.246 387.221 100.803 397.219C100.335 407.79 101.247 414.619 104.477 424.726C107.304 433.575 110.255 439.417 117.8 451.104C124.311 461.188 128.061 468.683 128.061 471.614C128.061 473.947 128.506 473.95 138.596 471.672C162.741 466.219 182.348 456.629 193.375 444.877C200.199 437.603 201.801 433.586 201.853 423.618C201.887 417.098 201.658 415.733 199.896 411.982C197.027 405.877 191.804 400.801 180.292 392.932C165.209 382.621 158.767 374.32 156.987 362.904C155.527 353.537 157.221 346.928 165.565 329.44C174.202 311.338 176.342 303.624 177.79 285.378C178.725 273.589 180.02 268.94 183.407 265.209C186.939 261.317 190.119 260 198.861 258.805C213.113 256.858 222.188 253.171 229.648 246.297C236.119 240.334 238.827 234.588 239.243 225.938L239.558 219.382L235.942 215.166C222.846 199.896 40.85 0 40.044 0C39.8719 0 44.1813 5.40178 49.6202 12.0031ZM135.412 409.18C138.373 403.937 136.8 397.195 131.847 393.902C127.167 390.79 119.897 392.256 119.897 396.311C119.897 397.548 120.582 398.449 122.124 399.243C124.72 400.579 124.909 402.081 122.866 405.152C120.797 408.262 120.964 410.996 123.337 412.854C127.162 415.849 132.576 414.202 135.412 409.18Z" />
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M248.552 262.244C241.862 264.299 235.358 271.39 233.344 278.826C232.116 283.362 232.813 291.319 234.653 293.776C237.625 297.745 240.499 298.791 248.282 298.736C263.518 298.63 276.764 292.095 278.304 283.925C279.567 277.229 273.749 267.948 265.736 263.874C261.601 261.772 252.807 260.938 248.552 262.244ZM266.364 276.172C268.714 272.834 267.686 269.225 263.69 266.785C256.08 262.138 244.571 265.983 244.571 273.173C244.571 276.752 250.572 280.656 256.074 280.656C259.735 280.656 264.746 278.473 266.364 276.172Z" />
+                                </svg>   
+                        </a>
+                        <a href={`https://app.moontools.io/pairs/uniswap/0xb6dd4a1adc8604ccda62c7ba92410d81647b2d61`} target="_blank noreferrer" className="home-link">
+                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                            width="54px" height="54px" viewBox="0 0 240.000000 240.000000"
+                            preserveAspectRatio="xMidYMid meet">
+
+                            <g transform="translate(0.000000,240.000000) scale(0.100000,-0.100000)">
+                            <path d="M1011 2229 c-262 -68 -469 -278 -537 -544 -24 -93 -24 -266 0 -355
+                            30 -114 109 -267 158 -308 13 -11 13 -5 2 40 -19 70 -18 210 1 283 29 109 72
+                            184 154 266 117 117 243 169 411 169 166 0 295 -53 411 -169 82 -82 127 -159
+                            154 -266 19 -74 19 -213 1 -283 -13 -51 -13 -52 5 -36 36 32 100 142 128 220
+                            154 421 -83 874 -514 984 -105 27 -271 27 -374 -1z"/>
+                            <path d="M323 1787 c-131 -200 -179 -380 -171 -633 5 -123 10 -165 32 -238 89
+                            -296 277 -525 541 -656 458 -228 1011 -101 1316 303 269 357 284 853 35 1223
+                            -51 76 -55 74 -27 -8 51 -148 54 -363 7 -521 -86 -291 -298 -505 -596 -603
+                            -79 -26 -97 -28 -255 -29 -195 0 -241 9 -390 80 -149 71 -263 170 -357 309
+                            -147 215 -188 514 -107 764 12 35 19 65 17 67 -2 3 -22 -24 -45 -58z"/>
+                            <path d="M1133 1620 c-41 -24 -63 -67 -63 -121 0 -35 6 -48 39 -80 35 -35 44
+                            -39 90 -39 44 0 56 5 87 33 87 80 32 227 -86 227 -19 0 -49 -9 -67 -20z"/>
+                            <path d="M1476 1490 c-14 -107 -64 -183 -150 -228 -73 -38 -179 -38 -252 0
+                            -83 44 -134 119 -149 221 -4 26 -11 47 -15 47 -13 0 -75 -80 -99 -127 -68
+                            -135 -66 -275 6 -417 83 -164 305 -261 488 -212 164 43 277 158 320 323 36
+                            138 -2 290 -102 403 l-40 44 -7 -54z"/>
+                            </g>
+                        </svg>
+                        </a>
+                        <a href={`https://github.com/QFinanceDeFi`} target="_blank noreferrer" className="home-link">
+                            <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="48px" height="48px" data-view-component="true">
+                                <path fillRule="evenodd"
+                                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href={`https://t.me/QFinance_DeFi`} target="_blank noreferrer" className="home-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 54 54" height="54px" width="54px">
+                        <g>
+                            <rect x="-0.2" y="0.1" style={{fill: 'none'}} width="48" height="48"/>
+                            <path d="M49.7,16.5c1.3,3.1,2,6.3,2,9.7s-0.7,6.6-2,9.7c-1.3,3.1-3.1,5.7-5.3,8c-2.2,2.2-4.9,4-8,5.3c-3.1,1.3-6.3,2-9.7,2   c-3.4,0-6.6-0.7-9.7-2s-5.7-3.1-8-5.3c-2.2-2.2-4-4.9-5.3-8c-1.3-3.1-2-6.3-2-9.7s0.7-6.6,2-9.7c1.3-3.1,3.1-5.7,5.3-8   c2.2-2.2,4.9-4,8-5.3s6.3-2,9.7-2c3.4,0,6.6,0.7,9.7,2c3.1,1.3,5.7,3.1,8,5.3C46.6,10.8,48.3,13.5,49.7,16.5z M34.8,37.7l4.1-19.3   c0.2-0.8,0.1-1.4-0.3-1.8c-0.4-0.4-0.8-0.4-1.4-0.2l-24.1,9.3c-0.5,0.2-0.9,0.4-1.1,0.7c-0.2,0.3-0.2,0.5-0.1,0.7   c0.1,0.2,0.4,0.4,0.9,0.5l6.2,1.9l14.3-9c0.4-0.3,0.7-0.3,0.9-0.2c0.1,0.1,0.1,0.2-0.1,0.4L22.5,31.3L22,37.7   c0.4,0,0.8-0.2,1.3-0.6l3-2.9l6.2,4.6C33.8,39.5,34.5,39.1,34.8,37.7z"/>
+                        </g>
+                        </svg>
+                        </a>
+                    </div>
+                </HomeCard>
+                <HomeCard size='sm'>
+                    <span style={{fontSize: `${fontSize}px`, display: 'flex', color: '#BA9860', minHeight: '36px', justifyContent: 'center'}}>
+                        {prices.status === 'pending' && <Loader size="24px" color="#BA9860" />}
+                        {prices.status !== 'pending' && `$${Number(prices.qfiPrice).toFixed(2).toLocaleString()}`}
+                    </span>
+                    <span style={{fontSize: `${fontSize - 8}px`, display: 'block', marginBottom: '4px'}}>QFI Price</span>
+                    {/*<a href={`https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x6fe88a211863d0d818608036880c9a4b0ea86795`}
+                        target="_blank noreferrer" style={{color: 'inherit', textDecoration: 'none', padding: '4px', fontSize: '12px',
+                        borderRadius: '18px', background: 'grey', margin: '8px 0'}}>
+                            Buy now
+                        </a>*/}
+                </HomeCard>
+                <HomeCard size="sm">
+                    <span style={{fontSize: `${fontSize}px`, display: 'flex', color: '#BA9860', minHeight: '36px', justifyContent: 'center'}}>
+                        {stake.status === 'pending' && <Loader size="24px" color="#BA9860" />}
+                        {stake.status !== 'pending' && `${stake.pools.find(p => p.address === "0x88f11399FA461285D857Bb6BEEae56cC58dcbdf0")?.apy ?? '0'}%`}
+                    </span>
+                    <span style={{fontSize: `${fontSize - 8}px`, display: 'block'}}>QFI Staking APY</span>
+                </HomeCard>
+                <HomeCard size="sm">
+                    <span style={{fontSize: `${fontSize}px`, display: 'flex', color: '#BA9860', minHeight: '36px', justifyContent: 'center'}}>{tvl}</span>
+                    <span style={{fontSize: `${fontSize - 8}px`, display: 'block'}}>TVL</span>
+                </HomeCard>
+                <HomeCard size="sm">
+                    <span style={{fontSize: `${fontSize}px`, display: 'flex', color: '#BA9860', minHeight: '36px', justifyContent: 'center'}}>
+                        {pools.status === 'pending' && <Loader size="24px" color="#BA9860" />}
+                        {pools.status !== 'pending' && pools.total}
+                    </span>
+                    <span style={{fontSize: `${fontSize - 8}px`, display: 'block'}}>Asset Pools</span>
+                </HomeCard>
+            </div>
+        </Main>
+    )
+}
+
+export default Home;

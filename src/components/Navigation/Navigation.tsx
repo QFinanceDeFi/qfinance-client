@@ -1,78 +1,55 @@
 import React from "react";
-import Navbar from "./Navbar";
-import NavLink from "./NavLink";
-import ExLink from "./ExLink";
-import Sidebar from "./Sidebar";
-import Price from "./Price";
-import BottomBar from "./BottomBar";
-import AppContext from "../../AppContext";
-import image from "../../images/logo192.png";
-import { SiTelegram, SiReddit, SiGithub, SiTwitter, SiInternetexplorer } from "react-icons/si";
-import Loader from "react-loader-spinner";
+import { ChevronDown, ChevronUp } from "react-feather";
+import useWindowWidth from "../../hooks/useWindowWidth";
+import "./navigation.css";
+import NavigationAccount from "./NavigationAccount";
+import NavigationBrand from "./NavigationBrand";
+import NavigationLink from "./NavigationLink";
 
-const Navigation = () => {
-    const [price, setPrice] = React.useState<number | null> ();
+type INavProps = {
+    connect: Function
+}
 
-    const context = React.useContext(AppContext);
-
-    React.useEffect(() => {
-        function getPrice() {
-            setPrice(context.state.priceQFI);
-        }
-        if (context) {
-            getPrice();
-        }
-    }, [context])
-
-    const navigate = (url: string) => {
-        window.location.assign(url);
-    }
+const Navigation: React.FC<INavProps> = ({ connect }) => {
+    const [open, setOpen] = React.useState<boolean>(false);
+    const width = useWindowWidth();
 
     return (
         <>
-        <Navbar>
-            <div className="top-image">
-                <img src={image} alt="Q" width='48px' height='48px'/>
-            </div>
-            <div>
-                <NavLink to="/" label="Home" />
-                <NavLink to="/pools" label="Pools" />
-                <NavLink to="/stake" label="Stake" />
-                <NavLink to="/trade" label="Trade" />
-                <NavLink to="/airdrop" label="Airdrop" />
-            </div>
-        </Navbar>
-        <Sidebar>
-            <div className="side-content">
-                <div className="side-image">
-                    <img src={image} alt="Q" width='72px' height='72px' />
+        <div className="navigation-bar">
+            <div className="nav-content">
+                <div className='nav-content-zone'>
+                    <NavigationBrand />
+                    {width > 800 &&
+                        <>
+                        <NavigationLink link="/" text="Home" />
+                        <NavigationLink link="/pools" text="Pools" />
+                        <NavigationLink link="/stake" text="Stake" />
+                        <NavigationLink link="/swap" text="Swap" />
+                        </>
+                    }
+                    {width < 800 &&
+                        <div style={{display: 'flex', width: '40px', justifyContent: 'center', alignItems: 'center', marginLeft: '12px', cursor: 'pointer'}} onClick={() => setOpen(!open)}>
+                        {!open && <ChevronDown size="24px" />}
+                        {open && <ChevronUp size="24px" />}
+                        </div>
+                    }
                 </div>
-                <NavLink to="/" label="Home" />
-                <NavLink to="/pools" label="Pools" />
-                <NavLink to="/stake" label="Stake" />
-                <NavLink to="/trade" label="Trade" />
-                <NavLink to="/airdrop" label="Airdrop" />
+                <div className="nav-content-zone">
+                    <NavigationAccount connect={(service: 'walletconnect' | 'injected') => connect(service)} />
+                </div>
             </div>
-            <div className="side-content">
-                <ExLink href="https://reddit.com/r/QFinanceDeFi" label="Reddit" />
-                <ExLink href="https://t.me/QFinance_DeFi" label="Telegram" />
-                <ExLink href="https://github.com/QFinanceDeFi" label="Github" />
-                <ExLink href="https://qfihub.com" label="Site" />
-                {!price ? <Loader type="ThreeDots" color="#CC9966" height="24px" width="24px" />
-                :
-                <Price price={price} />
-                }
-            </div>
-        </Sidebar>
-        <BottomBar>
-            <SiTelegram size={24} onClick={() => navigate('https://t.me/QFinance_DeFi')} />
-            <SiTwitter size={24} onClick={() => navigate('https://twitter.com/QFinanceDefi')} />
-            <SiReddit size={24} onClick={() => navigate('https://reddit.com/QFinanceDefi')} />
-            <SiGithub size={24} onClick={() => navigate('https://github.com/QFinanceDeFi')} />
-            <SiInternetexplorer size={24} onClick={() => navigate('https://qfihub.com')} />
-        </BottomBar>
+        </div>
+        <div className="mobile-nav-dropdown" style={{height: width < 800 && open ? '256px' : '0px', textAlign: 'center', transition: 'height ease-in-out 0.4s'}} onClick={() => setOpen(false)}>
+            <>
+                <NavigationLink link="/" text="Home" />
+                <NavigationLink link="/pools" text="Pools" />
+                <NavigationLink link="/stake" text="Stake" />
+                <NavigationLink link="/swap" text="Swap" />
+            </>
+        </div>
         </>
-    )
+    );
 }
 
 export default Navigation;
