@@ -89,7 +89,7 @@ export const approveToken: any = createAsyncThunk('tx/approve', async (args: any
     try {
         const accounts = await web3.eth.getAccounts();
         const contract: any = makeTokenContract(args.address);
-        const data: string = await contract.methods.approve(args.poolAddress, web3.utils.toWei(args.amount, 'ether')).encodeABI();
+        const data: string = await contract.methods.approve(args.poolAddress, args.amount).encodeABI();
         const txParams: object = {
             to: args.address,
             from: web3.utils.toChecksumAddress(accounts[0]),
