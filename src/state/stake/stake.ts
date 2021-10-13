@@ -49,7 +49,7 @@ export const getStakingInfo: any = createAsyncThunk('stake/getStakingInfo', asyn
             const balance = accounts.length > 0 ? balances.tokenBalances?.find((t: any) => t.contractAddress === item.stakingToken)?.tokenBalance ?? '0' : '0';
 
             if (item.poolName.includes("QFI Pool")) {
-                const apy = annual.div(web3.utils.toBN(2)).toLocaleString();
+                const apy = annual.div(web3.utils.toBN(4)).toLocaleString();
                 const qfiBalance = web3.utils.fromWei(await qfi.methods.balanceOf(item.address).call(), 'ether');
 
 
