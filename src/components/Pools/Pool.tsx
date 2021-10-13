@@ -211,7 +211,7 @@ const Pool: React.FC<IPoolProps> = ({
                     <div className="withdraw-modal">
                         <h3>Withdraw</h3>
                         <span>
-                            This function will withdraw your tokens to your wallet.
+                            This function will withdraw to your wallet.
                         </span>
                     </div>
                 }
