@@ -43,7 +43,7 @@ export const liquidate: any = createAsyncThunk('tx/liquidate', async (args: any)
     try {
         const accounts = await web3.eth.getAccounts();
         const contract: any = makeContract(args.address, !args.isPublic);
-        const data: string = contract.methods.withdrawEth(100).encodeABI();
+        const data: string = await contract.methods.withdrawEth(100).encodeABI();
         const txParams: object = {
             to: args.address,
             from: accounts[0],
