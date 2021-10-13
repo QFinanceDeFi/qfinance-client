@@ -155,27 +155,17 @@ const Pool: React.FC<IPoolProps> = ({
             <div className="pool-card-action">
               <button
                 className={`staking-card-button ${Number(web3.utils.fromWei(pool?.userBalance ?? '0', 'ether')) === 0 && 'button-disabled'}`}
+                disabled={Number(web3.utils.fromWei(pool?.userBalance ?? '0', 'ether')) === 0}
                 onClick={() => setModal({open: true, dialog: 'liquidate'})}
               >
                 LIQUIDATE
               </button>
             </div>
-            <div className="pool-card-action">
-              <button
-                className={`staking-card-button ${Number(web3.utils.fromWei(pool.userBalance ?? '0', 'ether')) === 0 && 'button-disabled'}`}
-                onClick={() => setModal({open: true, dialog: 'withdraw'})}
-              >
-                WITHDRAW
-              </button>
-            </div>
           </div>
           <div style={{ width: "100%", textAlign: "center", fontSize: "14px" }}>
-            <span>
-              See the pool on Etherscan:{" "}
-              <a href="https://etherscan.io" style={{ color: "inherit" }}>
-                {address}
+              <a href={`https://etherscan.io/contract/${pool.address}`} style={{ color: "inherit" }}>
+                {`See the pool on Etherscan: ${pool.address}`}
               </a>
-            </span>
           </div>
         </div>
       </div>

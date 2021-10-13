@@ -37,7 +37,7 @@ export const getPublicPools: any = createAsyncThunk('pools/getPublicPools', asyn
     const state: any = getState();
     try {
         const publicPools = await factory.methods.getPublicPools().call();
-        const accounts = state.connect.connected ? await web3.eth.getAccounts() : [];
+        const accounts = state.connect.connected ? await web3.eth.getAccounts() : [''];
 
         let pools = publicPools.map(async (item: any) => {
             const contract: any = makeContract(item, false);
@@ -47,7 +47,7 @@ export const getPublicPools: any = createAsyncThunk('pools/getPublicPools', asyn
                 poolName: await contract.methods.poolName().call(),
                 poolBalance: await contract.methods.totalValue().call(),
                 breakdown: [],
-                userBalance: accounts && accounts.length > 0 ? await contract.methods.balanceOf(accounts[0]).call() : '0',
+                userBalance: await contract.methods.balanceOf(accounts[0]).call().catch(() => '0'),
                 creator: await contract.methods.creator().call(),
                 isPublic: true
             }
@@ -79,7 +79,7 @@ export const getPrivatePools: any = createAsyncThunk('pools/getPrivatePools', as
                 poolBalance: await contract.methods.totalValue().call(),
                 breakdown: [],
                 creator,
-                userBalance: accounts && accounts.length > 0 && creator === web3.utils.toChecksumAddress(accounts[0]) ? await contract.methods.balanceOf(accounts[0]).call() : '0',
+                userBalance: creator === web3.utils.toChecksumAddress(accounts[0]) ? await contract.methods.balanceOf(accounts[0]).call() : '0',
                 isPublic: false
             }
         });
