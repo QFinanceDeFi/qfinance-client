@@ -152,19 +152,19 @@ const Pool: React.FC<IPoolProps> = ({
                 DEPOSIT
               </button>
             </div>
+            {/*}
             <div className="pool-card-action">
-              <button
                 className={`staking-card-button ${Number(web3.utils.fromWei(pool?.userBalance ?? '0', 'ether')) === 0 && 'button-disabled'}`}
                 disabled={Number(web3.utils.fromWei(pool?.userBalance ?? '0', 'ether')) === 0}
                 onClick={() => setModal({open: true, dialog: 'liquidate'})}
               >
                 LIQUIDATE
               </button>
-            </div>
+            </div>*/}
             <div className="pool-card-action">
               <button
-                className={`staking-card-button ${Number(web3.utils.fromWei(pool?.userBalance ?? '0', 'ether')) === 0 && 'button-disabled'}`}
-                disabled={Number(web3.utils.fromWei(pool?.userBalance ?? '0', 'ether')) === 0}
+                className={`staking-card-button ${Number(web3.utils.fromWei(pool.userBalance ?? '0', 'ether')) === 0 && 'button-disabled'}`}
+                disabled={Number(web3.utils.fromWei(pool.userBalance ?? '0', 'ether')) === 0}
                 onClick={() => setModal({open: true, dialog: 'withdraw'})}
               >
                 WITHDRAW
