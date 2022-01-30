@@ -95,7 +95,7 @@ const StakingPool: React.FC<IStakingPoolProps> = ({ poolName, endTime, address, 
                         <span style={{fontSize: '14px', marginBottom: '4px'}}>
                             Claim: {Number(web3.utils.fromWei(details?.rewards ?? '0', 'ether')).toLocaleString()}
                         </span>
-                        <button className={`staking-card-button ${(new Date(endTime * 1000) < new Date() || Number(details?.rewards ?? 0) === 0) && `button-disabled`}`}
+                        <button className={`staking-card-button ${(Number(details?.rewards ?? 0) === 0) && `button-disabled`}`}
                         onClick={claim}
                         disabled={Number(details?.rewards ?? 0) === 0}>
                             <span style={{alignSelf: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -108,7 +108,7 @@ const StakingPool: React.FC<IStakingPoolProps> = ({ poolName, endTime, address, 
                         <span style={{fontSize: '14px', marginBottom: '4px'}}>
                             Staked: {Number(web3.utils.fromWei(details?.staked ?? '0', 'ether')).toFixed()}
                         </span>
-                        <button className={`staking-card-button ${(new Date(endTime * 1000) < new Date() || Number(details?.staked ?? 0) === 0) && `button-disabled`}`}
+                        <button className={`staking-card-button ${(Number(details?.staked ?? 0) === 0) && `button-disabled`}`}
                             onClick={withdraw}
                             disabled={Number(web3.utils.fromWei(details?.staked ?? '0', 'ether')) < 0.1}>
                             Withdraw

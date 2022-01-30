@@ -162,7 +162,7 @@ const Pool: React.FC<IPoolProps> = ({
             </div>
           </div>
           <div style={{ width: "100%", textAlign: "center", fontSize: "14px" }}>
-              <a href={`https://etherscan.io/contract/${pool.address}`} style={{ color: "inherit" }}>
+              <a href={`https://etherscan.io/address/${pool.address}`} style={{ color: "inherit" }}>
                 {`See the pool on Etherscan: ${pool.address}`}
               </a>
           </div>
